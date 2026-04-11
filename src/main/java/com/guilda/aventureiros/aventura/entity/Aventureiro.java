@@ -3,7 +3,9 @@ package com.guilda.aventureiros.aventura.entity;
 import com.guilda.aventureiros.audit.entity.Organization;
 import com.guilda.aventureiros.audit.entity.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.Data;
+
 import java.time.LocalDateTime;
 
 @Data
@@ -15,29 +17,34 @@ public class Aventureiro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "organizacao_id", nullable = false)
     private Organization organizacao;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "usuario_id", nullable = false)
     private User usuarioCadastro;
 
     @Column(nullable = false, length = 120)
     private String nome;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)
-    private String classe;
+    private ClasseAventureiro classe;
 
+    @Min(1)
     @Column(nullable = false)
     private Integer nivel;
 
     @Column(nullable = false)
     private Boolean ativo;
 
-    @Column(name = "created_at")
+    @OneToOne(mappedBy = "aventureiro", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Companheiro companheiro;
+
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 }

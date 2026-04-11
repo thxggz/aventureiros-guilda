@@ -2,7 +2,8 @@ package com.guilda.aventureiros.audit.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import java.time.LocalDateTime;
+
+import java.time.OffsetDateTime;
 
 @Data
 @Entity
@@ -17,18 +18,18 @@ public class ApiKey {
     @JoinColumn(name = "organizacao_id", nullable = false)
     private Organization organization;
 
-    @Column
+    @Column(nullable = false)
     private String nome;
 
     @Column(name = "key_hash", nullable = false)
     private String keyHash;
 
-    @Column
+    @Column(nullable = false)
     private Boolean ativo;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Column(name = "created_at", nullable = false)
+    private OffsetDateTime createdAt;
 
     @Column(name = "last_used_at")
-    private LocalDateTime lastUsedAt;
+    private OffsetDateTime lastUsedAt;
 }

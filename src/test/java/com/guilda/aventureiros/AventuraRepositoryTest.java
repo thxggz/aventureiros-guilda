@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -53,7 +54,7 @@ class AventuraRepositoryTest {
     @Test
     void deveListarMissoesComFiltros() {
         Page<Missao> result = missaoRepository.buscarComFiltros(
-                null, null,
+                null, null, null, null,
                 PageRequest.of(0, 10, Sort.by("titulo"))
         );
         assertThat(result).isNotNull();
@@ -63,7 +64,9 @@ class AventuraRepositoryTest {
 
     @Test
     void deveGerarRankingAventureiros() {
-        List<Object[]> ranking = participacaoRepository.rankingAventureiros(null);
+        List<Object[]> ranking = participacaoRepository.rankingAventureiros(
+                null, null, null
+        );
         assertThat(ranking).isNotNull();
         System.out.println("Ranking de aventureiros: " + ranking.size());
     }
@@ -71,8 +74,8 @@ class AventuraRepositoryTest {
     @Test
     void deveGerarRelatorioMissoes() {
         List<Object[]> relatorio = missaoRepository.relatorioMissoesComMetricas(
-                java.time.LocalDateTime.now().minusYears(10),
-                java.time.LocalDateTime.now()
+                LocalDateTime.now().minusYears(10),
+                LocalDateTime.now()
         );
         assertThat(relatorio).isNotNull();
         System.out.println("Relatório de missões: " + relatorio.size() + " missões encontradas");

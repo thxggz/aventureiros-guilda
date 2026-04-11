@@ -1,6 +1,8 @@
 package com.guilda.aventureiros.aventura.repository;
 
 import com.guilda.aventureiros.aventura.entity.Missao;
+import com.guilda.aventureiros.aventura.entity.NivelPerigo;
+import com.guilda.aventureiros.aventura.entity.StatusMissao;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,18 +16,21 @@ import java.util.List;
 @Repository
 public interface MissaoRepository extends JpaRepository<Missao, Long> {
 
-    Page<Missao> findByStatus(String status, Pageable pageable);
+    Page<Missao> findByStatus(StatusMissao status, Pageable pageable);
 
-    Page<Missao> findByNivelPerigo(String nivelPerigo, Pageable pageable);
+    Page<Missao> findByNivelPerigo(NivelPerigo nivelPerigo, Pageable pageable);
 
     Page<Missao> findByCreatedAtBetween(LocalDateTime inicio, LocalDateTime fim, Pageable pageable);
 
     @Query("SELECT m FROM Missao m WHERE " +
             "(:status IS NULL OR m.status = :status) AND " +
-            "(:nivelPerigo IS NULL OR m.nivelPerigo = :nivelPerigo)")
+            "(:nivelPerigo IS NULL OR m.nivelPerigo = :nivelPerigo) AND " +
+            "m.createdAt BETWEEN :inicio AND :fim")
     Page<Missao> buscarComFiltros(
-            @Param("status") String status,
-            @Param("nivelPerigo") String nivelPerigo,
+            @Param("status") StatusMissao status,
+            @Param("nivelPerigo") NivelPerigo nivelPerigo,
+            @Param("inicio") LocalDateTime inicio,
+            @Param("fim") LocalDateTime fim,
             Pageable pageable);
 
     @Query("SELECT m, COUNT(p), COALESCE(SUM(p.recompensaOuro), 0) " +

@@ -1,6 +1,7 @@
 package com.guilda.aventureiros.aventura.repository;
 
 import com.guilda.aventureiros.aventura.entity.Aventureiro;
+import com.guilda.aventureiros.aventura.entity.ClasseAventureiro;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,7 +14,7 @@ public interface AventureiroRepository extends JpaRepository<Aventureiro, Long> 
 
     Page<Aventureiro> findByAtivo(Boolean ativo, Pageable pageable);
 
-    Page<Aventureiro> findByClasse(String classe, Pageable pageable);
+    Page<Aventureiro> findByClasse(ClasseAventureiro classe, Pageable pageable);
 
     Page<Aventureiro> findByNivelGreaterThanEqual(Integer nivelMinimo, Pageable pageable);
 
@@ -25,7 +26,7 @@ public interface AventureiroRepository extends JpaRepository<Aventureiro, Long> 
             "(:nivelMinimo IS NULL OR a.nivel >= :nivelMinimo)")
     Page<Aventureiro> buscarComFiltros(
             @Param("ativo") Boolean ativo,
-            @Param("classe") String classe,
+            @Param("classe") ClasseAventureiro classe,
             @Param("nivelMinimo") Integer nivelMinimo,
             Pageable pageable);
 }

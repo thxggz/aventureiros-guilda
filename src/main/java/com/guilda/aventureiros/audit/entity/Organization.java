@@ -2,7 +2,8 @@ package com.guilda.aventureiros.audit.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import java.time.LocalDateTime;
+
+import java.time.OffsetDateTime;
 
 @Data
 @Entity
@@ -19,6 +20,6 @@ public class Organization {
     @Column(nullable = false)
     private Boolean ativo;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Column(name = "created_at", nullable = false)
+    private OffsetDateTime createdAt;
 }

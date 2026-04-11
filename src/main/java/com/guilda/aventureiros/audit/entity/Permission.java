@@ -15,6 +15,6 @@ public class Permission {
     @Column(nullable = false)
     private String code;
 
-    @Column
+    @Column(nullable = false)
     private String descricao;
 }

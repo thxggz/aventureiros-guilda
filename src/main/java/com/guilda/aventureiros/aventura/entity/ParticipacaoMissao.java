@@ -1,7 +1,9 @@
 package com.guilda.aventureiros.aventura.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
+
 import java.time.LocalDateTime;
 
 @Data
@@ -12,25 +14,27 @@ public class ParticipacaoMissao {
     @EmbeddedId
     private ParticipacaoMissaoId id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @MapsId("missaoId")
-    @JoinColumn(name = "missao_id")
+    @JoinColumn(name = "missao_id", nullable = false)
     private Missao missao;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @MapsId("aventureiroId")
-    @JoinColumn(name = "aventureiro_id")
+    @JoinColumn(name = "aventureiro_id", nullable = false)
     private Aventureiro aventureiro;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "papel_missao", nullable = false, length = 50)
-    private String papelMissao;
+    private PapelMissao papelMissao;
 
+    @PositiveOrZero
     @Column(name = "recompensa_ouro")
     private Double recompensaOuro;
 
     @Column(nullable = false)
     private Boolean mvp;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 }

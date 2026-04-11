@@ -3,6 +3,7 @@ package com.guilda.aventureiros.aventura.entity;
 import com.guilda.aventureiros.audit.entity.Organization;
 import jakarta.persistence.*;
 import lombok.Data;
+
 import java.time.LocalDateTime;
 
 @Data
@@ -14,20 +15,22 @@ public class Missao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "organizacao_id", nullable = false)
     private Organization organizacao;
 
     @Column(nullable = false, length = 150)
     private String titulo;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "nivel_perigo", nullable = false, length = 50)
-    private String nivelPerigo;
+    private NivelPerigo nivelPerigo;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)
-    private String status;
+    private StatusMissao status;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "data_inicio")

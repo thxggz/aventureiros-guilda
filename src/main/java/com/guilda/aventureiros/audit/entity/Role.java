@@ -2,7 +2,8 @@ package com.guilda.aventureiros.audit.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import java.time.LocalDateTime;
+
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Data
@@ -15,7 +16,7 @@ public class Role {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "organizacao_id")
+    @JoinColumn(name = "organizacao_id", nullable = false)
     private Organization organization;
 
     @Column(nullable = false)
@@ -24,8 +25,8 @@ public class Role {
     @Column
     private String descricao;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Column(name = "created_at", nullable = false)
+    private OffsetDateTime createdAt;
 
     @ManyToMany
     @JoinTable(

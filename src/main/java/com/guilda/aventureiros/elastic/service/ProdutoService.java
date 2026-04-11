@@ -3,7 +3,6 @@ package com.guilda.aventureiros.elastic.service;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.aggregations.Aggregation;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
-import co.elastic.clients.elasticsearch.core.search.Hit;
 import com.guilda.aventureiros.elastic.entity.Produto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,7 +21,14 @@ public class ProdutoService {
 
     private List<Produto> extrairResultados(SearchResponse<Produto> response) {
         return response.hits().hits().stream()
-                .map(Hit::source)
+                .map(hit -> {
+                    Produto produto = hit.source();
+                    if (produto != null) {
+                        produto.setId(hit.id());
+                    }
+                    return produto;
+                })
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 

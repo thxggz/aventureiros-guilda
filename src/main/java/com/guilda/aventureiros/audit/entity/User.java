@@ -2,7 +2,8 @@ package com.guilda.aventureiros.audit.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import java.time.LocalDateTime;
+
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Data
@@ -27,17 +28,17 @@ public class User {
     @Column(name = "senha_hash", nullable = false)
     private String senhaHash;
 
-    @Column
+    @Column(nullable = false)
     private String status;
 
     @Column(name = "ultimo_login_em")
-    private LocalDateTime ultimoLoginEm;
+    private OffsetDateTime ultimoLoginEm;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Column(name = "created_at", nullable = false)
+    private OffsetDateTime createdAt;
 
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    @Column(name = "updated_at", nullable = false)
+    private OffsetDateTime updatedAt;
 
     @ManyToMany
     @JoinTable(
